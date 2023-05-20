@@ -4,21 +4,25 @@ const passport = require('passport');
 
 // Display login form
 exports.getLogin = (req, res) => {
-  res.render('login');
+  const messages = ['Message 1', 'Message 2', 'Message 3'];
+
+  res.render('login', {messages});
 };
 
 // Process login form
 exports.postLogin = (req, res, next) => {
   passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/login',
+    failureRedirect: '/auth/login',
     failureFlash: true
   })(req, res, next);
 };
 
 // Display registration form
 exports.getRegister = (req, res) => {
-  res.render('register');
+  const messages = ['Message 1', 'Message 2', 'Message 3'];
+
+  res.render('register', {messages});
 };
 
 // Process registration form
@@ -32,7 +36,7 @@ exports.postRegister = (req, res) => {
     .then(user => {
       if (user) {
         req.flash('error_msg', 'Username already exists');
-        res.redirect('/register');
+        res.redirect('/auth/register');
       } else {
         // Create a new user
         const newUser = new User({
@@ -49,7 +53,7 @@ exports.postRegister = (req, res) => {
               .save()
               .then(user => {
                 req.flash('success_msg', 'Registration successful. You can now log in');
-                res.redirect('/login');
+                res.redirect('/auth/login');
               })
               .catch(err => console.log(err));
           });
@@ -62,5 +66,6 @@ exports.postRegister = (req, res) => {
 exports.logout = (req, res) => {
   req.logout();
   req.flash('success_msg', 'You have been logged out');
-  res.redirect('/login');
+  req.session.destroy();
+  res.redirect('/auth/login');
 };

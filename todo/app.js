@@ -4,6 +4,11 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const flash = require('express-flash');
+
+const User = require('./models/user');
+
+
 const app = express();
 
 // Connect to MongoDB
@@ -14,23 +19,7 @@ mongoose.connect('mongodb://0.0.0.0/todo-app', {
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-// Create a User model
-const userSchema = new mongoose.Schema({
-  username: String,
-  password: String,
-});
 
-// Create a Todo model
-const todoSchema = new mongoose.Schema({
-  title: String,
-  content: String,
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-});
-
-const User = mongoose.model('User', userSchema);
-const Todo = mongoose.model('Todo', todoSchema);
 
 // Configure passport
 passport.use(new LocalStrategy((username, password, done) => {
@@ -61,16 +50,11 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
 }));
+
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Middleware to ensure user is authenticated
-const ensureAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/login');
-};
 
 // Import routes
 const indexRouter = require('./routes/index');
@@ -78,7 +62,27 @@ const authRouter = require('./routes/auth');
 
 // Use routes
 app.use('/', indexRouter);
-app.use('/', authRouter);
+app.use('/auth', authRouter);
+
+// Prevent page navigation from browser history after logout
+app.use((req, res, next) => {
+  if (req.path === '/auth/logout') {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Expires', '0');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Content-Language', 'en');
+    res.removeHeader('ETag');
+    res.removeHeader('Date');
+    res.removeHeader('X-Powered-By');
+
+    const redirectURL = '/auth/login';
+    res.redirect(redirectURL);
+    return;
+  }
+  next();
+});
+
 
 // Start the server
 app.listen(3000, () => {

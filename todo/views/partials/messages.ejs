@@ -1,0 +1,16 @@
+<% if (messages.error && messages.error.length > 0) { %>
+    <div class="error">
+      <% messages.error.forEach(function(error) { %>
+        <p><%= error %></p>
+      <% }) %>
+    </div>
+  <% } %>
+  
+  <% if (messages.success && messages.success.length > 0) { %>
+    <div class="success">
+      <% messages.success.forEach(function(success) { %>
+        <p><%= success %></p>
+      <% }) %>
+    </div>
+  <% } %>
+  

@@ -7,14 +7,17 @@ const { ensureAuthenticated } = require('../middleware/authMiddleware');
 router.get('/', ensureAuthenticated, todoController.getTodos);
 
 // Create todo route
-router.get('/create', ensureAuthenticated, todoController.getCreateTodo);
-router.post('/create', ensureAuthenticated, todoController.postCreateTodo);
+router.get('/todos/create', ensureAuthenticated, todoController.getCreateTodo);
+router.post('/todos/create', ensureAuthenticated, todoController.postCreateTodo);
 
 // Edit todo route
-router.get('/edit/:id', ensureAuthenticated, todoController.getEditTodo);
-router.post('/edit/:id', ensureAuthenticated, todoController.postEditTodo);
+router.get('/todos/edit/:id', ensureAuthenticated, todoController.getEditTodo);
+router.post('/todos/edit/:id', ensureAuthenticated, todoController.postEditTodo);
 
 // Delete todo route
-router.get('/delete/:id', ensureAuthenticated, todoController.deleteTodo);
+router.get('/todos/delete/:id', ensureAuthenticated, todoController.deleteTodo);
+
+
+
 
 module.exports = router;

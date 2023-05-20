@@ -5,9 +5,11 @@ const authController = require('../controllers/authController');
 
 // Login route
 router.get('/login', authController.getLogin);
+
+
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/login',
+  failureRedirect: '/auth/login',
 }));
 
 // Register route

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Todo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .edit-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .edit-card {
+      width: 400px;
+      padding: 40px;
+      border-radius: 5px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .edit-heading {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .edit-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .edit-form input[type="text"] {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .edit-form button {
+      padding: 10px 20px;
+      background-color: #3367d6;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="edit-container">
+    <div class="edit-card">
+      <div class="edit-heading">
+        <h2>Edit Todo</h2>
+        <p>Update your todo item.</p>
+      </div>
+      <form class="edit-form" action="/todos/edit/<%= todo._id %>" method="POST">
+        <input type="text" name="title" value="<%= todo.title %>" placeholder="Todo Title" required />
+        <input type="text" name="content" value="<%= todo.content %>" placeholder="Todo Content" required />
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

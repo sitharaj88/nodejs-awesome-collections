@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Todo App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .user-info {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 14px;
+    }
+
+    .user-info .username {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    .user-info a {
+      color: #3367d6;
+      text-decoration: none;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .todo-container {
+      margin-top: 50px;
+      padding: 20px 20px 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .todo-heading {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .todo-list {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .todo-item {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 15px;
+      padding: 15px;
+    }
+
+    .todo-item-title {
+      font-weight: bold;
+    }
+
+    .todo-item-content {
+      margin-top: 5px;
+      color: #888;
+    }
+
+    .todo-item-time {
+      margin-top: 10px;
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    .todo-item-actions {
+      margin-top: 10px;
+    }
+
+    .add-todo-form {
+      margin-top: 20px;
+      display: flex;
+    }
+
+    .add-todo-form input[type="text"] {
+      flex-grow: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+
+    .add-todo-form button {
+      padding: 10px 20px;
+      background-color: #3367d6;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+
+  <script>
+    // Check if the current page is the login page
+    if (window.location.href.includes('/auth/login')) {
+      // Replace the current history state with the index page
+      window.history.replaceState(null, null, '/');
+
+      // Add an event listener to prevent navigating back to the login page
+      window.addEventListener('popstate', function (event) {
+        window.history.pushState(null, null, '/');
+      });
+    }
+  </script>
+
+  <script>
+  if (window.history && window.history.pushState) {
+    window.history.pushState('forward', null, './auth/login');
+    window.addEventListener('popstate', function() {
+      window.history.pushState('forward', null, './auth/login');
+      location.reload();
+    });
+  }
+</script>
+</head>
+
+<body>
+  <div class="todo-container">
+    <div class="user-info">
+      <span class="username">Welcome, <%= user.username %></span>
+      <a href="/auth/logout">Logout</a>
+    </div>
+    <div class="todo-heading">
+      <h2>Todo List</h2>
+      <p>Manage your tasks with ease.</p>
+    </div>
+    <ul class="todo-list">
+      <% todos.forEach(function(todo) { %>
+        <li class="todo-item">
+          <div class="todo-item-title">
+            <%= todo.title %>
+          </div>
+          <div class="todo-item-content">
+            <%= todo.content %>
+          </div>
+          <div class="todo-item-time">
+            Created/Updated: <%= todo.updatedAt %>
+          </div>
+          <div class="todo-item-actions">
+            <a href="/todos/edit/<%= todo._id %>"><i class="fas fa-edit"></i></a>
+            <a href="/todos/delete/<%= todo._id %>"><i class="fas fa-trash"></i></a>
+          </div>
+        </li>
+        <% }) %>
+    </ul>
+    <form class="add-todo-form" action="todos/create" method="POST">
+      <input type="text" name="title" placeholder="Todo Title" required />
+      <input type="text" name="content" placeholder="Todo Content" required />
+      <button type="submit">Add Todo</button>
+    </form>
+  </div>
+
+  <script>
+    if (window.history && window.history.pushState) {
+      window.history.pushState(null, null, document.URL);
+      window.addEventListener('popstate', function () {
+        window.history.pushState(null, null, document.URL);
+      });
+    }
+  </script>
+</body>
+
+</html>
