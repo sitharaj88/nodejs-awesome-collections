@@ -1,5 +1,3 @@
-Certainly! Here's an updated version of the README file with a more detailed and beautiful description for your Todo app:
-
 ```markdown
 # Todo App 📝
 
