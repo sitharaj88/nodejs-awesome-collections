@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Shortenio - URL Shortener</title>
+</head>
+
+<body>
+  <h1>Shortenio - URL Shortener</h1>
+  <form id="shortenForm">
+    <label for="originalUrl">Original URL:</label>
+    <input type="text" id="originalUrl" name="originalUrl" required>
+    <button type="submit">Shorten</button>
+  </form>
+
+  <div id="resultContainer" style="display: none;">
+    <h2>Shortened URL:</h2>
+    <a id="shortenedUrl" target="_blank"></a>
+  </div>
+
+  <script>
+    const form = document.getElementById('shortenForm');
+    const resultContainer = document.getElementById('resultContainer');
+    const shortenedUrlElement = document.getElementById('shortenedUrl');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const originalUrl = document.getElementById('originalUrl').value;
+
+      try {
+        const response = await fetch('http://localhost:3000/api/shorten', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ originalUrl }),
+        });
+
+        const data = await response.json();
+
+        shortenedUrlElement.textContent = "http://localhost:3000/" + data.shortUrl;
+        shortenedUrlElement.href = "http://localhost:3000/" + data.shortUrl;
+        resultContainer.style.display = 'block';
+      } catch (error) {
+        console.error('Error shortening URL:', error);
+        alert('An error occurred while shortening the URL.');
+      }
+    });
+  </script>
+</body>
+
+</html>
