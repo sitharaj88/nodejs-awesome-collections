@@ -66,8 +66,6 @@ Redirect the original URL associated with the provided short url.
 
 - **Endpoint:** `GET http://localhost:3000/api/url/abc123`
 
-  ```
-
 ### Get Shortened URL Analytics
 
 Retrieves analytics data for the specified shortened URL.
@@ -98,7 +96,7 @@ Retrieves analytics data for the specified shortened URL.
   }
   ```
 
-  ## 🤝 Contributing
+## 🤝 Contributing
 
 Contributions are welcome! If you would like to contribute to this project, please follow these steps:
 
