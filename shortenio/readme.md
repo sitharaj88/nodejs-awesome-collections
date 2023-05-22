@@ -1,9 +1,10 @@
-```markdown
 # Shortenio ✂️
 
 Shortenio is a fast and efficient URL shortener service built with Express.js and MongoDB. It empowers you to transform long and cumbersome URLs into short, elegant, and easy-to-share links. With Shortenio, managing and tracking your shortened URLs becomes a breeze.
 
-![Shortenio Demo](https://github.com/sitharaj88/nodejs-awesome-collections/raw/main/shortenio/demo.gif)
+## 🎥 Demo
+
+![](https://github.com/sitharaj88/nodejs-awesome-collections/raw/main/shortenio/demo.gif)
 
 ## 🚀 Features
 
