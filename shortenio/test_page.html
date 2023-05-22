@@ -34,13 +34,13 @@
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ originalUrl }),
+          body: JSON.stringify({ "url": originalUrl }),
         });
 
         const data = await response.json();
 
-        shortenedUrlElement.textContent = "http://localhost:3000/" + data.shortUrl;
-        shortenedUrlElement.href = "http://localhost:3000/" + data.shortUrl;
+        shortenedUrlElement.textContent = data.shortUrl;
+        shortenedUrlElement.href = data.shortUrl;
         resultContainer.style.display = 'block';
       } catch (error) {
         console.error('Error shortening URL:', error);

@@ -33,7 +33,7 @@ exports.createShortUrl = async (req, res) => {
     const regex = new RegExp(`^${url}$`, 'i');
     // Check if the URL already exists in the database
     let urlDocument = await Url.findOneAndUpdate(
-      { originalUrl: regex },
+      { originalUrl: url },
       {
         $set: {
           expiresAt: calculateExpiry(),
